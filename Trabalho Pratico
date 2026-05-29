@@ -1,0 +1,430 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyP1vHgSwx7q9C/8o/Peyl+C",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/SabrinaSuga/Trabalho-Pratico-BIG-DATA/blob/main/Trabalho%20Pratico\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "VwdlDhl3pGv4"
+      },
+      "outputs": [],
+      "source": [
+        "import pandas as pd\n",
+        "import numpy as np"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df = pd.read_csv(\"pico_web.csv\", sep=\";\")"
+      ],
+      "metadata": {
+        "id": "GtcLYzDzpvmE"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print(\" Informações gerais 📌\")\n",
+        "print(df.info())\n",
+        "\n",
+        "print(\"Primeiras linhas\")\n",
+        "print(df.head())\n",
+        "\n",
+        "print(\"Últimas linhas\")\n",
+        "print(df.tail())"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "vDz2Wvejp1ec",
+        "outputId": "f6808b8a-5099-42ff-b07b-2e64401f6bba"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            " Informações gerais 📌\n",
+            "<class 'pandas.core.frame.DataFrame'>\n",
+            "RangeIndex: 32 entries, 0 to 31\n",
+            "Data columns (total 6 columns):\n",
+            " #   Column    Non-Null Count  Dtype  \n",
+            "---  ------    --------------  -----  \n",
+            " 0   ID        32 non-null     int64  \n",
+            " 1   Duration  32 non-null     int64  \n",
+            " 2   Date      31 non-null     object \n",
+            " 3   Pulse     32 non-null     int64  \n",
+            " 4   Maxpulse  32 non-null     int64  \n",
+            " 5   Calories  30 non-null     float64\n",
+            "dtypes: float64(1), int64(4), object(1)\n",
+            "memory usage: 1.6+ KB\n",
+            "None\n",
+            "Primeiras linhas\n",
+            "   ID  Duration          Date  Pulse  Maxpulse  Calories\n",
+            "0   0        60  '2020/12/01'    110       130    4091.0\n",
+            "1   1        60  '2020/12/02'    117       145    4790.0\n",
+            "2   2        60  '2020/12/03'    103       135    3400.0\n",
+            "3   3        45  '2020/12/04'    109       175    2824.0\n",
+            "4   4        45  '2020/12/05'    117       148    4060.0\n",
+            "Últimas linhas\n",
+            "    ID  Duration          Date  Pulse  Maxpulse  Calories\n",
+            "27  27        60  '2020/12/27'     92       118    2410.0\n",
+            "28  28        60  '2020/12/28'    103       132       NaN\n",
+            "29  29        60  '2020/12/29'    100       132    2800.0\n",
+            "30  30        60  '2020/12/30'    102       129    3803.0\n",
+            "31  31        60  '2020/12/31'     92       115    2430.0\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df2 = df.copy()"
+      ],
+      "metadata": {
+        "id": "G4SMeEpJp7uk"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df2[\"Calories\"] = df2[\"Calories\"].fillna(0)\n",
+        "print(df2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "D70xcDEyp_NU",
+        "outputId": "81caaa49-7d7a-405f-f630-74ed722a9751"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "    ID  Duration          Date  Pulse  Maxpulse  Calories\n",
+            "0    0        60  '2020/12/01'    110       130    4091.0\n",
+            "1    1        60  '2020/12/02'    117       145    4790.0\n",
+            "2    2        60  '2020/12/03'    103       135    3400.0\n",
+            "3    3        45  '2020/12/04'    109       175    2824.0\n",
+            "4    4        45  '2020/12/05'    117       148    4060.0\n",
+            "5    5        60  '2020/12/06'    102       127    3000.0\n",
+            "6    6        60  '2020/12/07'    110       136    3740.0\n",
+            "7    7       450  '2020/12/08'    104       134    2533.0\n",
+            "8    8        30  '2020/12/09'    109       133    1951.0\n",
+            "9    9        60  '2020/12/10'     98       124    2690.0\n",
+            "10  10        60  '2020/12/11'    103       147    3293.0\n",
+            "11  11        60  '2020/12/12'    100       120    2507.0\n",
+            "12  12        60  '2020/12/12'    100       120    2507.0\n",
+            "13  13        60  '2020/12/13'    106       128    3453.0\n",
+            "14  14        60  '2020/12/14'    104       132    3793.0\n",
+            "15  15        60  '2020/12/15'     98       123    2750.0\n",
+            "16  16        60  '2020/12/16'     98       120    2152.0\n",
+            "17  17        60  '2020/12/17'    100       120    3000.0\n",
+            "18  18        45  '2020/12/18'     90       112       0.0\n",
+            "19  19        60  '2020/12/19'    103       123    3230.0\n",
+            "20  20        45  '2020/12/20'     97       125    2430.0\n",
+            "21  21        60  '2020/12/21'    108       131    3642.0\n",
+            "22  22        45           NaN    100       119    2820.0\n",
+            "23  23        60  '2020/12/23'    130       101    3000.0\n",
+            "24  24        45  '2020/12/24'    105       132    2460.0\n",
+            "25  25        60  '2020/12/25'    102       126    3345.0\n",
+            "26  26        60      20201226    100       120    2500.0\n",
+            "27  27        60  '2020/12/27'     92       118    2410.0\n",
+            "28  28        60  '2020/12/28'    103       132       0.0\n",
+            "29  29        60  '2020/12/29'    100       132    2800.0\n",
+            "30  30        60  '2020/12/30'    102       129    3803.0\n",
+            "31  31        60  '2020/12/31'     92       115    2430.0\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df2[\"Date\"] = df2[\"Date\"].fillna(\"1900/01/01\")\n",
+        "print(df2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "1urN0A6hqCOM",
+        "outputId": "822d920d-0059-42a2-88e1-450624e67633"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "    ID  Duration          Date  Pulse  Maxpulse  Calories\n",
+            "0    0        60  '2020/12/01'    110       130    4091.0\n",
+            "1    1        60  '2020/12/02'    117       145    4790.0\n",
+            "2    2        60  '2020/12/03'    103       135    3400.0\n",
+            "3    3        45  '2020/12/04'    109       175    2824.0\n",
+            "4    4        45  '2020/12/05'    117       148    4060.0\n",
+            "5    5        60  '2020/12/06'    102       127    3000.0\n",
+            "6    6        60  '2020/12/07'    110       136    3740.0\n",
+            "7    7       450  '2020/12/08'    104       134    2533.0\n",
+            "8    8        30  '2020/12/09'    109       133    1951.0\n",
+            "9    9        60  '2020/12/10'     98       124    2690.0\n",
+            "10  10        60  '2020/12/11'    103       147    3293.0\n",
+            "11  11        60  '2020/12/12'    100       120    2507.0\n",
+            "12  12        60  '2020/12/12'    100       120    2507.0\n",
+            "13  13        60  '2020/12/13'    106       128    3453.0\n",
+            "14  14        60  '2020/12/14'    104       132    3793.0\n",
+            "15  15        60  '2020/12/15'     98       123    2750.0\n",
+            "16  16        60  '2020/12/16'     98       120    2152.0\n",
+            "17  17        60  '2020/12/17'    100       120    3000.0\n",
+            "18  18        45  '2020/12/18'     90       112       0.0\n",
+            "19  19        60  '2020/12/19'    103       123    3230.0\n",
+            "20  20        45  '2020/12/20'     97       125    2430.0\n",
+            "21  21        60  '2020/12/21'    108       131    3642.0\n",
+            "22  22        45    1900/01/01    100       119    2820.0\n",
+            "23  23        60  '2020/12/23'    130       101    3000.0\n",
+            "24  24        45  '2020/12/24'    105       132    2460.0\n",
+            "25  25        60  '2020/12/25'    102       126    3345.0\n",
+            "26  26        60      20201226    100       120    2500.0\n",
+            "27  27        60  '2020/12/27'     92       118    2410.0\n",
+            "28  28        60  '2020/12/28'    103       132       0.0\n",
+            "29  29        60  '2020/12/29'    100       132    2800.0\n",
+            "30  30        60  '2020/12/30'    102       129    3803.0\n",
+            "31  31        60  '2020/12/31'     92       115    2430.0\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print(\"\\n Tentativa de conversão (deve gerar erro):\")\n",
+        "try:\n",
+        "    pd.to_datetime(df2[\"Date\"], format=\"%Y/%m/%d\")\n",
+        "except Exception as e:\n",
+        "    print(\"ERRO GERADO :\", e)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "it5y-RWWqFdM",
+        "outputId": "5a056cf4-be56-4db4-aaa6-8bad87d9bc13"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            " Tentativa de conversão (deve gerar erro):\n",
+            "ERRO GERADO : time data \"'2020/12/01'\" doesn't match format \"%Y/%m/%d\", at position 0. You might want to try:\n",
+            "    - passing `format` if your strings have a consistent format;\n",
+            "    - passing `format='ISO8601'` if your strings are all ISO8601 but not necessarily in exactly the same format;\n",
+            "    - passing `format='mixed'`, and the format will be inferred for each element individually. You might want to use `dayfirst` alongside this.\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df2[\"Date\"] = df2[\"Date\"].replace(\"1900/01/01\", np.nan)\n",
+        "print(\"\\nApós remover '1900/01/01':\")\n",
+        "print(df2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "4dJtFkfNqJMd",
+        "outputId": "005bfdd5-85a9-4d6a-b72c-48ff7a90a068"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "Após remover '1900/01/01':\n",
+            "    ID  Duration          Date  Pulse  Maxpulse  Calories\n",
+            "0    0        60  '2020/12/01'    110       130    4091.0\n",
+            "1    1        60  '2020/12/02'    117       145    4790.0\n",
+            "2    2        60  '2020/12/03'    103       135    3400.0\n",
+            "3    3        45  '2020/12/04'    109       175    2824.0\n",
+            "4    4        45  '2020/12/05'    117       148    4060.0\n",
+            "5    5        60  '2020/12/06'    102       127    3000.0\n",
+            "6    6        60  '2020/12/07'    110       136    3740.0\n",
+            "7    7       450  '2020/12/08'    104       134    2533.0\n",
+            "8    8        30  '2020/12/09'    109       133    1951.0\n",
+            "9    9        60  '2020/12/10'     98       124    2690.0\n",
+            "10  10        60  '2020/12/11'    103       147    3293.0\n",
+            "11  11        60  '2020/12/12'    100       120    2507.0\n",
+            "12  12        60  '2020/12/12'    100       120    2507.0\n",
+            "13  13        60  '2020/12/13'    106       128    3453.0\n",
+            "14  14        60  '2020/12/14'    104       132    3793.0\n",
+            "15  15        60  '2020/12/15'     98       123    2750.0\n",
+            "16  16        60  '2020/12/16'     98       120    2152.0\n",
+            "17  17        60  '2020/12/17'    100       120    3000.0\n",
+            "18  18        45  '2020/12/18'     90       112       0.0\n",
+            "19  19        60  '2020/12/19'    103       123    3230.0\n",
+            "20  20        45  '2020/12/20'     97       125    2430.0\n",
+            "21  21        60  '2020/12/21'    108       131    3642.0\n",
+            "22  22        45           NaN    100       119    2820.0\n",
+            "23  23        60  '2020/12/23'    130       101    3000.0\n",
+            "24  24        45  '2020/12/24'    105       132    2460.0\n",
+            "25  25        60  '2020/12/25'    102       126    3345.0\n",
+            "26  26        60      20201226    100       120    2500.0\n",
+            "27  27        60  '2020/12/27'     92       118    2410.0\n",
+            "28  28        60  '2020/12/28'    103       132       0.0\n",
+            "29  29        60  '2020/12/29'    100       132    2800.0\n",
+            "30  30        60  '2020/12/30'    102       129    3803.0\n",
+            "31  31        60  '2020/12/31'     92       115    2430.0\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df2[\"Date\"] = df2[\"Date\"].replace(\"20201226\", \"2020/12/26\")"
+      ],
+      "metadata": {
+        "id": "1I8vgdK0qM98"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df2[\"Date\"] = pd.to_datetime(df2[\"Date\"], format=\"%Y/%m/%d\")\n",
+        "\n",
+        "print(\"\\nApós conversão completa para datetime:\")\n",
+        "print(df2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 561
+        },
+        "id": "0uWnTamTqQcL",
+        "outputId": "e9421ce3-a4dd-499b-c291-3f4ec511758f"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "ValueError",
+          "evalue": "time data \"'2020/12/01'\" doesn't match format \"%Y/%m/%d\", at position 0. You might want to try:\n    - passing `format` if your strings have a consistent format;\n    - passing `format='ISO8601'` if your strings are all ISO8601 but not necessarily in exactly the same format;\n    - passing `format='mixed'`, and the format will be inferred for each element individually. You might want to use `dayfirst` alongside this.",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mValueError\u001b[0m                                Traceback (most recent call last)",
+            "\u001b[0;32m/tmp/ipykernel_2856/2117971595.py\u001b[0m in \u001b[0;36m<cell line: 0>\u001b[0;34m()\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mdf2\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m\"Date\"\u001b[0m\u001b[0;34m]\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mpd\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mto_datetime\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mdf2\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m\"Date\"\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mformat\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m\"%Y/%m/%d\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"\\nApós conversão completa para datetime:\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      4\u001b[0m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mdf2\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.12/dist-packages/pandas/core/tools/datetimes.py\u001b[0m in \u001b[0;36mto_datetime\u001b[0;34m(arg, errors, dayfirst, yearfirst, utc, format, exact, unit, infer_datetime_format, origin, cache)\u001b[0m\n\u001b[1;32m   1065\u001b[0m             \u001b[0mresult\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0marg\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mmap\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mcache_array\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1066\u001b[0m         \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 1067\u001b[0;31m             \u001b[0mvalues\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mconvert_listlike\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0marg\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_values\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mformat\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   1068\u001b[0m             \u001b[0mresult\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0marg\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_constructor\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mvalues\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mindex\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0marg\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mindex\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mname\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0marg\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mname\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1069\u001b[0m     \u001b[0;32melif\u001b[0m \u001b[0misinstance\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0marg\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m(\u001b[0m\u001b[0mABCDataFrame\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mabc\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mMutableMapping\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.12/dist-packages/pandas/core/tools/datetimes.py\u001b[0m in \u001b[0;36m_convert_listlike_datetimes\u001b[0;34m(arg, format, name, utc, unit, errors, dayfirst, yearfirst, exact)\u001b[0m\n\u001b[1;32m    431\u001b[0m     \u001b[0;31m# `format` could be inferred, or user didn't ask for mixed-format parsing.\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    432\u001b[0m     \u001b[0;32mif\u001b[0m \u001b[0mformat\u001b[0m \u001b[0;32mis\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0;32mNone\u001b[0m \u001b[0;32mand\u001b[0m \u001b[0mformat\u001b[0m \u001b[0;34m!=\u001b[0m \u001b[0;34m\"mixed\"\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 433\u001b[0;31m         \u001b[0;32mreturn\u001b[0m \u001b[0m_array_strptime_with_fallback\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0marg\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mname\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mutc\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mformat\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mexact\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0merrors\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    434\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    435\u001b[0m     result, tz_parsed = objects_to_datetime64(\n",
+            "\u001b[0;32m/usr/local/lib/python3.12/dist-packages/pandas/core/tools/datetimes.py\u001b[0m in \u001b[0;36m_array_strptime_with_fallback\u001b[0;34m(arg, name, utc, fmt, exact, errors)\u001b[0m\n\u001b[1;32m    465\u001b[0m     \u001b[0mCall\u001b[0m \u001b[0marray_strptime\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;32mwith\u001b[0m \u001b[0mfallback\u001b[0m \u001b[0mbehavior\u001b[0m \u001b[0mdepending\u001b[0m \u001b[0mon\u001b[0m \u001b[0;34m'errors'\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    466\u001b[0m     \"\"\"\n\u001b[0;32m--> 467\u001b[0;31m     \u001b[0mresult\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mtz_out\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0marray_strptime\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0marg\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mfmt\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mexact\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mexact\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0merrors\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0merrors\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mutc\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mutc\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    468\u001b[0m     \u001b[0;32mif\u001b[0m \u001b[0mtz_out\u001b[0m \u001b[0;32mis\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    469\u001b[0m         \u001b[0munit\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mnp\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdatetime_data\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mresult\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdtype\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m0\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32mstrptime.pyx\u001b[0m in \u001b[0;36mpandas._libs.tslibs.strptime.array_strptime\u001b[0;34m()\u001b[0m\n",
+            "\u001b[0;32mstrptime.pyx\u001b[0m in \u001b[0;36mpandas._libs.tslibs.strptime.array_strptime\u001b[0;34m()\u001b[0m\n",
+            "\u001b[0;32mstrptime.pyx\u001b[0m in \u001b[0;36mpandas._libs.tslibs.strptime._parse_with_format\u001b[0;34m()\u001b[0m\n",
+            "\u001b[0;31mValueError\u001b[0m: time data \"'2020/12/01'\" doesn't match format \"%Y/%m/%d\", at position 0. You might want to try:\n    - passing `format` if your strings have a consistent format;\n    - passing `format='ISO8601'` if your strings are all ISO8601 but not necessarily in exactly the same format;\n    - passing `format='mixed'`, and the format will be inferred for each element individually. You might want to use `dayfirst` alongside this."
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df2 = df2.dropna(subset=[\"Date\"])\n",
+        "print(\"DataFrame Final ✨\")\n",
+        "print(df2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "-p85XJa7qXMl",
+        "outputId": "216692b6-1346-4f2e-8ea7-9f192b263ce6"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "DataFrame Final ✨\n",
+            "    ID  Duration          Date  Pulse  Maxpulse  Calories\n",
+            "0    0        60  '2020/12/01'    110       130    4091.0\n",
+            "1    1        60  '2020/12/02'    117       145    4790.0\n",
+            "2    2        60  '2020/12/03'    103       135    3400.0\n",
+            "3    3        45  '2020/12/04'    109       175    2824.0\n",
+            "4    4        45  '2020/12/05'    117       148    4060.0\n",
+            "5    5        60  '2020/12/06'    102       127    3000.0\n",
+            "6    6        60  '2020/12/07'    110       136    3740.0\n",
+            "7    7       450  '2020/12/08'    104       134    2533.0\n",
+            "8    8        30  '2020/12/09'    109       133    1951.0\n",
+            "9    9        60  '2020/12/10'     98       124    2690.0\n",
+            "10  10        60  '2020/12/11'    103       147    3293.0\n",
+            "11  11        60  '2020/12/12'    100       120    2507.0\n",
+            "12  12        60  '2020/12/12'    100       120    2507.0\n",
+            "13  13        60  '2020/12/13'    106       128    3453.0\n",
+            "14  14        60  '2020/12/14'    104       132    3793.0\n",
+            "15  15        60  '2020/12/15'     98       123    2750.0\n",
+            "16  16        60  '2020/12/16'     98       120    2152.0\n",
+            "17  17        60  '2020/12/17'    100       120    3000.0\n",
+            "18  18        45  '2020/12/18'     90       112       0.0\n",
+            "19  19        60  '2020/12/19'    103       123    3230.0\n",
+            "20  20        45  '2020/12/20'     97       125    2430.0\n",
+            "21  21        60  '2020/12/21'    108       131    3642.0\n",
+            "23  23        60  '2020/12/23'    130       101    3000.0\n",
+            "24  24        45  '2020/12/24'    105       132    2460.0\n",
+            "25  25        60  '2020/12/25'    102       126    3345.0\n",
+            "26  26        60    2020/12/26    100       120    2500.0\n",
+            "27  27        60  '2020/12/27'     92       118    2410.0\n",
+            "28  28        60  '2020/12/28'    103       132       0.0\n",
+            "29  29        60  '2020/12/29'    100       132    2800.0\n",
+            "30  30        60  '2020/12/30'    102       129    3803.0\n",
+            "31  31        60  '2020/12/31'     92       115    2430.0\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
